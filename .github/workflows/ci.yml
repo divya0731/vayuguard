@@ -1,0 +1,27 @@
+name: VayuGuard CI
+
+on:
+  push:
+    branches: [dev, staging, main]
+  pull_request:
+    branches: [main, staging]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build backend image
+        run: docker build ./backend -t vayuguard-backend
+
+      - name: Build ML service image
+        run: docker build ./ML-Service -t vayuguard-ml
+
+      - name: All builds passed
+        run: echo "✅ CI passed successfully!"
