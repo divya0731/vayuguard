@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: vayuguard-backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    restart: always
+
+  frontend:
+    image: nginx:alpine
+    container_name: vayuguard-frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    restart: always
+
+  ml-service:
+    build: ./ML-Service
+    container_name: vayuguard-ml
+    ports:
+      - "8000:8000"
+    restart: always
